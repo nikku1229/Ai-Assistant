@@ -2,13 +2,14 @@ from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
-import os
+from pathlib import Path
 
-DOCS_DIR = "D:\\Coding\\Project\\Self\\Ai Assistant\\backend\\data\\docs"
-CHROMA_DIR = "D:\\Coding\\Project\\Self\\Ai Assistant\\backend\\data\\chroma"
+BASE_DIR = Path(__file__).resolve().parent
+DOCS_DIR = BASE_DIR / "data" / "docs"
+CHROMA_DIR = BASE_DIR / "data" / "chroma"
 
-os.makedirs(DOCS_DIR, exist_ok=True)
-os.makedirs(CHROMA_DIR, exist_ok=True)
+DOCS_DIR.mkdir(parents=True, exist_ok=True)
+CHROMA_DIR.mkdir(parents=True, exist_ok=True)
 
 print("Embeddings load ho rahi hain...")
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
@@ -16,7 +17,7 @@ print("Embeddings ready!")
 
 
 def load_vectorstore():
-    return Chroma(persist_directory=CHROMA_DIR, embedding_function=embeddings)
+    return Chroma(persist_directory=str(CHROMA_DIR), embedding_function=embeddings)
 
 
 def add_document(file_path: str):

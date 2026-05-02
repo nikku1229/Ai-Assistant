@@ -8,21 +8,23 @@ function createWindow() {
     width: 1000,
     height: 700,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
     },
   });
 
   session.defaultSession.setPermissionRequestHandler(
-    (webContents, permission, callback) => {
-      callback(true);
+    (_webContents, permission, callback) => {
+      const allowed = new Set(["media"]);
+      callback(allowed.has(permission));
     },
   );
 
   // Permission check karne se pehle set karo
   session.defaultSession.setPermissionCheckHandler(
-    (webContents, permission) => {
-      return true;
+    (_webContents, permission) => {
+      const allowed = new Set(["media"]);
+      return allowed.has(permission);
     },
   );
 

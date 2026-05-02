@@ -22,12 +22,23 @@ function App() {
     setListening(true);
     try {
       const response = await fetch("http://localhost:8000/listen");
+      if (!response.ok) {
+        throw new Error("Voice service failed");
+      }
       const data = await response.json();
       if (data.text) {
         sendMessage(data.text);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { role: "ai", content: "Voice detect nahi hua, dobara clear bolo." },
+        ]);
       }
     } catch (err) {
-      console.log("Voice Error:", err);
+      setMessages((prev) => [
+        ...prev,
+        { role: "ai", content: "Mic/voice service issue aayi, dobara try karo." },
+      ]);
     }
     setListening(false);
   };
@@ -48,13 +59,17 @@ function App() {
         body: JSON.stringify({ message: finalText }),
       });
       const data = await response.json();
+      if (!response.ok) {
+        const reason = data?.detail || "Backend ne error return kiya.";
+        throw new Error(reason);
+      }
       const aiMsg = { role: "ai", content: data.reply };
       setMessages((prev) => [...prev, aiMsg]);
       speak(data.reply);
     } catch (err) {
       const errMsg = {
         role: "ai",
-        content: "Backend se connect nahi ho paya!",
+        content: `Chat error: ${err.message || "Backend se connect nahi ho paya."}`,
       };
       setMessages((prev) => [...prev, errMsg]);
     }

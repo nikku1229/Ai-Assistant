@@ -3,14 +3,14 @@ import vosk
 import json
 import queue
 import time
+from pathlib import Path
 
-MODEL_PATH = (
-    "D:\\Coding\\Project\\Self\\Ai Assistant\\backend\\model\\vosk-model-en-in-0.5"
-)
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR / "model" / "vosk-model-en-in-0.5"
 
 # Model ek baar load hoga — server start pe
 print("Voice model load ho raha hai...")
-model = vosk.Model(MODEL_PATH)
+model = vosk.Model(str(MODEL_PATH))
 print("Voice model ready!")
 
 audio_queue = queue.Queue()
