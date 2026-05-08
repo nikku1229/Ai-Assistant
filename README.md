@@ -1,147 +1,374 @@
-# AI Assistant
+# AI Assistant 🤖
 
-A local-first AI assistant project with a React/Electron frontend and a FastAPI backend.
+A powerful **local-first AI assistant** built with **React + Electron + FastAPI**, designed for real-time conversations, voice interaction, and document-aware AI responses — all running locally on your machine.
 
-It supports text chat, voice input, spoken AI replies, proactive assistant messages, and document-aware answers using vector search (RAG-like context injection).
+The assistant supports:
 
-## Features
+* 💬 AI-powered text chat
+* 🎙️ Voice input with speech recognition
+* 🔊 Spoken AI responses
+* 🧠 Proactive AI-generated messages
+* 📄 Document upload & semantic search (RAG)
+* 💾 Persistent local chat history
 
-- Chat with a local LLM (via Ollama, `mistral` model in current code).
-- Voice input using Vosk + microphone capture.
-- Voice output in browser using Speech Synthesis (`hi-IN`).
-- Proactive AI messages generated periodically and fetched by the frontend.
-- Document upload and semantic retrieval with Chroma + HuggingFace embeddings.
-- Daily chat history persistence in JSON files.
+---
 
-## Tech Stack
+## 🚀 Features
 
-- **Frontend**
-  - React
-  - Vite
-  - Electron (desktop wrapper)
+### 🤖 AI Chat System
 
-- **Backend (Python)**
-  - FastAPI
-  - Pydantic
-  - Requests
-  - LangChain community tools
-  - Chroma vector database
-  - HuggingFace embeddings (`all-MiniLM-L6-v2`)
-  - Vosk + sounddevice (speech recognition)
+* Chat with a local LLM using **Ollama**
+* Powered by the `mistral` model
+* Fast local inference without cloud dependency
+* Context-aware responses
 
-- **Secondary Backend (Node)**
-  - Express 5 (in `Js-Backend`, optional/minimal)
+### 🎙️ Voice Assistant
 
-- **LLM Runtime**
-  - Ollama API on `http://localhost:11434`
+* Speech-to-text using **Vosk**
+* Microphone input with `sounddevice`
+* AI voice replies using Browser Speech Synthesis (`hi-IN`)
 
-## Project Structure
+### 📄 Document Intelligence (RAG)
 
-```text
-Ai Assistant/
-├─ Backend/          # FastAPI app, voice, proactive, docs retrieval
-├─ Frontend/         # React + Vite app, optional Electron wrapper
-├─ Js-Backend/       # Minimal Express backend (separate/optional)
-└─ package.json      # Root scripts to run frontend + backend together
-```
+* Upload PDFs/documents
+* Semantic search with **ChromaDB**
+* HuggingFace embeddings (`all-MiniLM-L6-v2`)
+* Context-aware answers from uploaded documents
 
-## Prerequisites
+### 🧠 Proactive AI Messaging
 
-- Node.js and npm
-- Python 3.10+ (recommended)
-- Ollama model running locally with the `mistral` model available
-- Microphone access (for voice input)
-- Download Ollama with `mistral` model adn also `vosk-model-en-in-0.5` on the local desktop to run
+* AI can generate proactive messages periodically
+* Frontend fetches queued assistant notifications automatically
 
-## Installation
+### 💾 Local Data Persistence
 
-From the repository root:
+* Daily chat history stored in JSON files
+* Local vector database storage
+* Fully local-first architecture
+
+### 🖥️ Desktop Support
+
+* Electron wrapper support
+* Can run as a desktop AI assistant
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+* React (Vite)
+* Electron
+* CSS
+* Web Speech API
+
+## Backend (Python)
+
+* FastAPI
+* Pydantic
+* Requests
+* LangChain Community
+* ChromaDB
+* HuggingFace Embeddings
+* Vosk
+* SoundDevice
+
+## Secondary Backend
+
+* Express.js (Optional)
+
+## AI Runtime
+
+* Ollama API (`localhost:11434`)
+* `mistral` model
+
+---
+
+# 📂 Project Structure
 
 ```bash
-npm install
+Ai-Assistant/
+│
+├── Backend/              # FastAPI backend
+│   ├── data/
+│   │   ├── chats/
+│   │   ├── docs/
+│   │   └── chroma/
+│   └── main.py
+│
+├── Frontend/             # React + Vite frontend
+│   ├── src/
+│   └── electron/
+│
+├── Js-Backend/           # Optional Express backend
+│
+└── package.json
 ```
 
-Install frontend dependencies:
+---
+
+# ⚙️ Prerequisites
+
+Before running the project, install:
+
+* Node.js & npm
+* Python 3.10+
+* Ollama
+* `mistral` model in Ollama
+* `vosk-model-en-in-0.5`
+* Microphone access enabled
+
+---
+
+# 📥 Installation & Setup
+
+## Clone Repository
+
+```bash
+git clone https://github.com/nikku1229/Ai-Assistant
+cd ai-assistant
+```
+
+---
+
+# 🔧 Frontend Setup
 
 ```bash
 cd Frontend
 npm install
 ```
 
-Install JS backend dependencies (optional):
+Run frontend:
 
 ```bash
-cd ../Js-Backend
+npm run start
+```
+
+---
+
+# ⚡ Backend Setup (FastAPI)
+
+```bash
+cd Backend
+pip install fastapi uvicorn pydantic requests vosk sounddevice \
+langchain-community langchain-text-splitters \
+langchain-chroma langchain-huggingface pypdf
+```
+
+Run backend:
+
+```bash
+python main.py
+```
+
+Backend runs on:
+
+```bash
+http://localhost:8000
+```
+
+---
+
+# 🧩 Optional JS Backend
+
+```bash
+cd Js-Backend
 npm install
+npm start
 ```
 
-Install Python backend dependencies manually (current `requirements.txt` is empty):
+---
+
+# 🦙 Ollama Setup
+
+Install Ollama and pull the `mistral` model:
 
 ```bash
-cd ../Backend
-pip install fastapi uvicorn pydantic requests vosk sounddevice langchain-community langchain-text-splitters langchain-chroma langchain-huggingface pypdf
+ollama pull mistral
 ```
 
-## Running the App
-
-### Option 1: Run from root (frontend + Python backend together)
+Start Ollama:
 
 ```bash
+ollama serve
+```
+
+Default API:
+
+```bash
+http://localhost:11434
+```
+
+---
+
+# 🎤 Vosk Model Setup
+
+Download:
+
+```bash
+vosk-model-en-in-0.5
+```
+
+Extract the model and place it inside your local project or desktop path used in the backend.
+
+---
+
+# ▶️ Run Entire Project Together
+
+From the root directory:
+
+```bash
+npm install
 npm start
 ```
 
 This runs:
 
-- Frontend dev server (`Frontend`, Vite)
-- Python backend (`Backend/main.py`) on port `8000`
+* React frontend
+* Python backend concurrently
 
-### Option 2: Run services manually
+---
 
-Optional Electron mode:
+# 🔌 API Endpoints
 
-```bash
-cd Frontend
-npm run start
+## General
+
+```http
+GET /
 ```
 
-Python backend:
+Health check endpoint.
 
-```bash
-cd Backend
-python main.py
+---
+
+## Chat
+
+```http
+POST /chat
 ```
 
-Optional Frontend:
+Send user message and receive AI response.
 
-```bash
-cd Frontend
-npm run dev
+---
+
+## Voice Input
+
+```http
+GET /listen
 ```
 
-## API Overview (FastAPI backend)
+Captures voice input from microphone.
 
-- `GET /` - health/status
-- `POST /chat` - send user message and receive AI reply
-- `GET /listen` - capture voice input and return recognized text
-- `GET /proactive` - fetch queued proactive message (if available)
-- `POST /upload` - upload document and index it into vector store
+---
 
-## Data and Storage
+## Proactive Messages
 
-- Chat history: `Backend/data/chats/<YYYY-MM-DD>.json`
-- Uploaded docs: `Backend/data/docs/`
-- Chroma vector store: `Backend/data/chroma/`
+```http
+GET /proactive
+```
 
-## Notes and Current Limitations
+Fetch AI-generated proactive notifications.
 
-- Several backend paths are hardcoded as absolute Windows paths.
-- `Backend/requirements.txt` is currently empty.
-- There is a duplicate `/upload` route definition in `Backend/main.py`; the second one is the effective handler.
-- No automated tests are configured yet.
+---
 
-## Suggested Next Improvements
+## Document Upload
 
-- Move all hardcoded paths and model names to environment variables.
-- Add a proper `requirements.txt` and setup script.
-- Add unit/integration tests for chat, voice, and document pipelines.
-- Add Docker support for reproducible setup.
+```http
+POST /upload
+```
+
+Upload and index documents into vector database.
+
+---
+
+# 💾 Data Storage
+
+## Chat History
+
+```bash
+Backend/data/chats/<YYYY-MM-DD>.json
+```
+
+## Uploaded Documents
+
+```bash
+Backend/data/docs/
+```
+
+## Chroma Vector Store
+
+```bash
+Backend/data/chroma/
+```
+
+---
+
+# 🔐 Current Limitations
+
+* Some backend paths are hardcoded for Windows
+* `requirements.txt` is incomplete
+* Duplicate `/upload` route exists
+* No automated tests yet
+* Local-only setup currently
+
+---
+
+# 🚀 Future Improvements
+
+* Environment variable support
+* Proper `requirements.txt`
+* Docker support
+* Multi-model support
+* Streaming responses
+* Better UI animations
+* Authentication system
+* Conversation memory improvements
+* Mobile/Desktop packaged builds
+
+---
+
+# 🧠 Performance & Architecture
+
+* Local-first architecture
+* Vector-based semantic retrieval
+* Lightweight embeddings model
+* Persistent local storage
+* Modular backend structure
+
+---
+
+# 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+---
+
+# 👨‍💻 Author
+
+**Nitish Sharma**
+
+* GitHub:
+  [GitHub Profile](https://github.com/nikku1229)
+
+* LinkedIn:
+  [LinkedIn Profile](https://www.linkedin.com/in/nitish-sharma-648a581b2)
+
+---
+
+# ⭐ Support
+
+If you like this project:
+
+⭐ Star the repository
+🔁 Share the project
+🤝 Contribute to development
+
+---
+
+# 🔥 Built for Local AI Experiences
+
+A modern local AI assistant focused on privacy, voice interaction, and intelligent document understanding.
